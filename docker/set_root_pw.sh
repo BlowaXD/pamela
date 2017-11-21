@@ -5,7 +5,7 @@ if [ -z "${SSH_KEY}" ]; then
 	exit 1
 fi
 
-for MYHOME in /root /home/docker; do
+for MYHOME in /root /home/doom /home/blowa; do
 	echo "=> Adding SSH key to ${MYHOME}"
 	mkdir -p ${MYHOME}/.ssh
 	chmod go-rwx ${MYHOME}/.ssh
@@ -13,12 +13,13 @@ for MYHOME in /root /home/docker; do
 	chmod go-rw ${MYHOME}/.ssh/authorized_keys
 	echo "=> Done!"
 done
-chown -R docker:docker /home/docker/.ssh
+chown -R doom:doom /home/doom/.ssh
+chown -R blowa:blowa /home/blowa/.ssh
 
 echo "========================================================================"
-echo "You can now connect to this container via SSH using:"
+echo "You can now connect to the container through SSH using:"
 echo ""
 echo "    ssh -p <port> <user>@<host>"
 echo ""
-echo "Choose root (full access) or docker (limited user account) as <user>."
+echo "Users: root (full access), doom/blowa (limited user account)."
 echo "========================================================================"
