@@ -5,7 +5,7 @@ FROM debian:latest
 
 # Install packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssh-server sudo
-RUN apt-get install -y gcc make libpam0g-dev git
+RUN apt-get install -y gcc make libpam0g-dev git emacs
 ADD set_root_pw.sh /set_root_pw.sh
 ADD run.sh /run.sh
 RUN chmod +x /*.sh
@@ -14,10 +14,7 @@ RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSep
   && touch /root/.Xauthority \
   && true
 
-## Set a user blowa. Available via runtime flag `--user blowa`
-## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
-## User should also have & own a home directory, but also be able to sudo
-RUN useradd blowa \
+RUN useradd blowa -s /bin/bash \
         && passwd -d blowa \
         && mkdir /home/blowa \
         && chown blowa:blowa /home/blowa \
@@ -25,10 +22,7 @@ RUN useradd blowa \
         && addgroup blowa sudo \
         && true
 
-## Set a user doom. Available via runtime flag `--user doom`
-## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
-## User should also have & own a home directory, but also be able to sudo
-RUN useradd doom \
+RUN useradd doom -s /bin/bash \
         && passwd -d doom \
         && mkdir /home/doom \
         && chown doom:doom /home/doom \
