@@ -2,7 +2,7 @@ FROM debian:latest
 
 # Install packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssh-server sudo
-RUN apt-get install -y build-essential libpam0g-dev git emacs
+RUN apt-get install -y build-essential libpam0g-dev git emacs unzip
 #RUN apt-get install -y busybox console-setup console-setup-linux cpio initramfs-tools initramfs-tools-core kbd keyboard-configuration klibc-utils kmod libklibc liblocale-gettext-perl linux-base udev
 ADD set_root_pw.sh /set_root_pw.sh
 ADD run.sh /run.sh
@@ -13,7 +13,7 @@ RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSep
   && true
 
 RUN useradd blowa -s /bin/bash \
-        && passwd -d blowa \
+        && echo "blowa:blowa" | chpasswd \
         && mkdir /home/blowa \
         && chown blowa:blowa /home/blowa \
         && addgroup blowa staff \
@@ -21,7 +21,7 @@ RUN useradd blowa -s /bin/bash \
         && true
 
 RUN useradd doom -s /bin/bash \
-        && passwd -d doom \
+        && echo "doom:doom" | chpasswd \
         && mkdir /home/doom \
         && chown doom:doom /home/doom \
         && addgroup doom staff \
