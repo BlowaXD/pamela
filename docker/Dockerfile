@@ -1,7 +1,7 @@
 FROM debian:latest
 
 # Install packages
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssh-server sudo
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install openssh-server sudo bash-completion
 RUN apt-get install -y build-essential libpam0g-dev git emacs unzip
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cryptsetup
 ADD set_root_pw.sh /set_root_pw.sh
@@ -12,20 +12,20 @@ RUN mkdir -p /var/run/sshd && sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSep
   && touch /root/.Xauthority \
   && true
 
-RUN useradd blowa -s /bin/bash \
-        && echo "blowa:blowa" | chpasswd \
-        && mkdir /home/blowa \
-        && chown blowa:blowa /home/blowa \
-        && addgroup blowa staff \
-        && addgroup blowa sudo \
+RUN useradd porn -s /bin/bash \
+        && echo "porn:porn" | chpasswd \
+        && mkdir /home/porn \
+        && chown porn:porn /home/porn \
+        && addgroup porn staff \
+        && addgroup porn sudo \
         && true
 
-RUN useradd doom -s /bin/bash \
-        && echo "doom:doom" | chpasswd \
-        && mkdir /home/doom \
-        && chown doom:doom /home/doom \
-        && addgroup doom staff \
-        && addgroup doom sudo \
+RUN useradd anarchy -s /bin/bash \
+        && echo "anarchy:anarchy" | chpasswd \
+        && mkdir /home/anarchy \
+        && chown anarchy:anarchy /home/anarchy \
+        && addgroup anarchy staff \
+        && addgroup anarchy sudo \
         && true
 
 EXPOSE 22

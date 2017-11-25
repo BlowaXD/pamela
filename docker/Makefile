@@ -26,7 +26,7 @@ debug-ssh:	build .FORCE
 debug-connect:	.FORCE
 		ssh $(DEFAULT_USER)@localhost -p $(PORT) -o "StrictHostKeyChecking=no" env
 
-OPTS=--privileged --cap-add=all -v /dev:/dev -v /lib/modules:/lib/modules
+OPTS=--privileged --cap-add=all #-v /dev:/dev -v /lib/modules:/lib/modules
 
 root-shell:	build .FORCE
 		docker run -p $(PORT):22 -ti $(OPTS) $(CONTAINER_NAME) bash
