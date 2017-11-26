@@ -28,5 +28,9 @@ RUN useradd anarchy -s /bin/bash \
         && addgroup anarchy sudo \
         && true
 
+RUN echo >> /etc/bash.bashrc && echo 'PATH=$PATH:/sbin/' >> /etc/bash.bashrc
+
+RUN echo >> /etc/sudoers && echo '%staff ALL=(root) NOPASSWD:/sbin/*,/bin/mount,/bin/umount' >> /etc/sudoers
+
 EXPOSE 22
 CMD ["/run.sh"]
