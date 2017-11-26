@@ -8,7 +8,15 @@ SRC		=	src/pwd_utils.c \
 
 OBJ		=	$(SRC:.c=.o)
 
-CPPFLAGS	=	-DDEBUG
+LUKS_TEST	=	luksutils-test
+
+LUKS_SRC	=	src/luks_utils.c \
+			src/shell_utils.c \
+			tests/luksutils-test.c
+
+LUKS_OBJ	=	$(LUKS_SRC:.c=.o)
+
+CPPFLAGS	=	-DDEBUG -Isrc
 CFLAGS		=	-Wall -Wextra -Wno-unused-parameter -fPIC
 
 all:			$(NAME)
@@ -19,12 +27,21 @@ $(NAME):		$(OBJ)
 
 clean:
 			@echo "Cleaning"
-			$(RM) $(NAME) $(OBJ)
+			$(RM) $(NAME) $(OBJ) $(LUKS_TEST) $(LUKS_OBJ)
 
 re:			clean all
 
-test:			all
+TEST_USER	?=	$(shell whoami)
+
+test:			$(LUKS_TEST)
 			@echo "Running tests"
+			@./luksutils-test $(TEST_USER) >/dev/null \
+			&& echo "[OK] LUKS utils test passed" \
+			|| echo "[KO] LUKS utils test failed"
+
+$(LUKS_TEST):		$(LUKS_OBJ)
+			$(CC) $(LUKS_OBJ) -o $(LUKS_TEST)
+
 
 INSTALLDIR	?=	/lib/security
 INSTALLTARGET	=	$(INSTALLDIR)/$(NAME)
